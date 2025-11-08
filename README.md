@@ -88,7 +88,7 @@ Natalia sold 48+24 = <<48+24=72>>72 clips altogether in April and May.
 ### 环境配置
 ```bash
 # 克隆代码
-https://github.com/TeenLucifer/dapo_reproduce
+git clone https://github.com/TeenLucifer/dapo_reproduce
 
 # 下载模型和数据集
 sudo apt-get update
