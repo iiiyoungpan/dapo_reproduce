@@ -39,6 +39,17 @@ action_mask = action_mask.view(-1, self.args.num_generations, num_actions)
 loss = per_token_loss.sum(-1).sum(-1) / action_mask.sum(-1).sum(-1)
 loss = loss.mean()
 ```
+
+那能不能让他不平等的对待每个token，就是高权重的token对损失贡献大，低权重token对损失贡献小
+DAPO（或类似 DPO、IPO、KTO 等对齐算法）中，默认是平等对待每个 token，导致：长序列损失贡献大、短序列损失贡献小、无法区分token重要性
+区分token重要性可以通过以下方法解决：
+1）Token 级 Loss 加权（最直接）：在计算 loss 时，对每个 token 的 loss 乘以权重
+2）重要性采样（Importance Sampling）：在训练时，高权重 token 被采样的概率更高
+3）分层 Loss（Hierarchical Loss）：将 token 分为“关键 token”和“普通 token”，分别计算 loss
+4）Focal Loss（聚焦损失）：让模型“聚焦”在难学的 token 上
+
+
+
 ## 2. 数据集
 GSM8K数据集是由8.5K个高质量的小学数学问题组成的语言模型训练数据集. 每个问题包含"question"和"answer"两个字段, answer中给出了问题的推理过程和最终的答案. 单个数据示例如下所示:
 
