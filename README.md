@@ -39,7 +39,6 @@ action_mask = action_mask.view(-1, self.args.num_generations, num_actions)
 loss = per_token_loss.sum(-1).sum(-1) / action_mask.sum(-1).sum(-1)
 loss = loss.mean()
 ```
-
 那能不能让他不平等的对待每个token，就是高权重的token对损失贡献大，低权重token对损失贡献小
 DAPO（或类似 DPO、IPO、KTO 等对齐算法）中，默认是平等对待每个 token，导致：长序列损失贡献大、短序列损失贡献小、无法区分token重要性
 区分token重要性可以通过以下方法解决：
